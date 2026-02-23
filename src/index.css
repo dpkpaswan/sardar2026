@@ -64,6 +64,8 @@ body {
   color: var(--white);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 body::before {
@@ -103,6 +105,9 @@ img {
   margin: 0 auto;
   padding: 0 var(--space-3);
   position: relative;
+  overflow-x: hidden;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* ── Scroll Reveal ── */
@@ -1215,25 +1220,26 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2);
-  padding: 0 var(--space-2);
+  gap: 6px;
+  padding: 0 4px;
 }
 
 .guest-carousel-card {
   flex: 1;
-  max-width: 340px;
+  max-width: 480px;
+  width: 100%;
   margin: 0 auto;
 }
 
 .guest-carousel-arrow {
   flex-shrink: 0;
-  width: 44px;
-  height: 44px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   background: rgba(168, 230, 240, 0.1);
   border: 1px solid rgba(168, 230, 240, 0.3);
   color: var(--festive-gold);
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1294,6 +1300,20 @@ img {
   gap: 60px;
   width: max-content;
   animation: marqueeScroll 20s linear infinite;
+}
+
+@media (max-width: 768px) {
+  .marquee-logo {
+    height: 36px;
+  }
+
+  .logo-marquee-track {
+    gap: 30px;
+  }
+
+  .logo-marquee-section {
+    padding: var(--space-3) 0;
+  }
 }
 
 .logo-marquee-track:hover {
@@ -2009,6 +2029,44 @@ img {
     width: 40px;
     height: 40px;
     font-size: 1.8rem;
+  }
+
+  /* ── About: single column ── */
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+
+  /* ── Hero: prevent left/right clip on mobile ── */
+  .hero {
+    padding-left: var(--space-2);
+    padding-right: var(--space-2);
+    overflow-x: hidden;
+  }
+
+  .hero-content {
+    width: 100%;
+    max-width: 100%;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    overflow-x: hidden;
+  }
+
+  /* ── Carousel dots: stop right-side bleed ── */
+  .guest-carousel-dots {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 0 var(--space-2);
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .guest-carousel {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
   }
 }
 
