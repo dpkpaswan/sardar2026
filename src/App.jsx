@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Navbar from './components/Navbar'
 import MobileDrawer from './components/MobileDrawer'
 import Hero from './components/Hero'
@@ -17,6 +17,24 @@ import GalleryPage from './pages/GalleryPage'
 export default function App() {
   const [page, setPage] = useState('home')
   const [drawerOpen, setDrawerOpen] = useState(false)
+  const videoRef = useRef(null)
+
+  // Force video autoplay on iOS and other browsers that block it
+  useEffect(() => {
+    const vid = videoRef.current
+    if (!vid) return
+    vid.muted = true          // must be muted for autoplay policy
+    vid.playsInline = true
+    const playPromise = vid.play()
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        // If autoplay blocked, retry once on first user interaction
+        const retry = () => { vid.play(); document.removeEventListener('touchstart', retry); document.removeEventListener('click', retry) }
+        document.addEventListener('touchstart', retry, { once: true })
+        document.addEventListener('click', retry, { once: true })
+      })
+    }
+  }, [])
 
   // Handle hash-based routing for gallery
   useEffect(() => {
@@ -55,9 +73,18 @@ export default function App() {
 
   return (
     <>
-      {/* Background video */}
-      <video className="bg-video" autoPlay muted loop playsInline>
-        <source src="https://res.cloudinary.com/dd9qhriun/video/upload/v1771841761/Video_ftik7v.mp4" />
+      {/* Background video — webkit-playsinline for older iOS */}
+      <video
+        ref={videoRef}
+        className="bg-video"
+        autoPlay
+        muted
+        loop
+        playsInline
+        webkit-playsinline="true"
+        preload="auto"
+      >
+        <source src="https://res.cloudinary.com/dd9qhriun/video/upload/v1771841761/Video_ftik7v.mp4" type="video/mp4" />
       </video>
 
       <Navbar
